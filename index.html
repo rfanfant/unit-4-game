@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>jQuery Calculator</title>
+  <title> Crystal Collector</title>
 
   <!-- Added link to the jQuery Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
   <!-- Added a link to our external stylesheet-->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="assets/css/style.css">
 
 </head>
 
@@ -20,122 +20,153 @@
 
   <!-- Jumbotron for Title -->
   <div class="jumbotron">
-    <h1 class="text-center">jQuery Calculator</h1>
-    <h3 class="text-center">Perform basic mathematic operations using the power of jQuery!</h3>
+    <h1 class="text-center">Crystal Collector</h1>
+    <br>
   </div>
 
-  <div class="container">
+  <h3> <span id="userMessage"> </span></h3>
+  <br>
+  <h3> Random Number = <span id="randomNumber"></span></h3>
+  <h3> Crystal Totals = <span id="crystalTotals"></span></h3>
+  <br>
+  <h3> Wins = <span id="crystalWins"></span></h3>
+  <h3> Losses = <span id="crystalLosses"></span></h3>
 
-    <div class="row">
+  <br>
+  <br>
+  <div class="container" style="display: 100%">
 
-      <!-- Calculator Card -->
-      <div class="col-lg-4">
-        <div class="card">
-          <h3 class="card-header">Calculator</h3>
-
-          <div class="card-body">
-            <button id="button-1" class="btn btn-primary number" value="1"><span>1</span></button>
-            <button id="button-2" class="btn btn-primary number" value="2"><span>2</span></button>
-            <button id="button-3" class="btn btn-primary number" value="3"><span>3</span></button>
-            <button id="button-plus" class="btn btn-danger operator" value="plus"><span>+</span></button>
-            <br><br>
-            <button id="button-4" class="btn btn-primary number" value="4"><span>4</span></button>
-            <button id="button-5" class="btn btn-primary number" value="5"><span>5</span></button>
-            <button id="button-6" class="btn btn-primary number" value="6"><span>6</span></button>
-            <button id="button-minus" class="btn btn-danger operator" value="minus"><span>&minus;</span></button>
-            <br><br>
-            <button id="button-7" class="btn btn-primary number" value="7"><span>7</span></button>
-            <button id="button-8" class="btn btn-primary number" value="8"><span>8</span></button>
-            <button id="button-9" class="btn btn-primary number" value="9"><span>9</span></button>
-            <button id="button-multiply" class="btn btn-danger operator" value="times"><span>&times;</span></button>
-            <br><br>
-            <button id="button-0" class="btn btn-primary number" value="0"><span>0</span></button>
-            <button id="button-divide" class="btn btn-danger operator" value="divide"><span>&divide;</span></button>
-            <button id="button-power" class="btn btn-danger operator" value="power"><span>^</span></button>
-            <button id="button-equal" class="btn btn-success equal" value="equals"><span>=</span></button>
-            <br><br>
-            <button id="button-clear" class="btn btn-dark clear" value="clear"><span>clear</span></button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Result Card -->
-      <div class="col-lg-6">
-        <div class="card">
-          <h3 class="card-header">Result</h3>
-          <div class="card-body">
-            <h1 id="first-number"></h1>
-            <h1 id="operator"></h1>
-            <h1 id="second-number"></h1>
-            <hr>
-            <h1 id="result"></h1>
-          </div>
-        </div>
-      </div>
-    </div>
+    <button class="button1" id="btn1"></button>
+    <button class="button2" id="btn2"></button>
+    <button class="button3" id="btn3"></button>
+    <button class="button4" id="btn4"></button>
   </div>
 
   <script type="text/javascript">
 
 
+    $(document).ready(function () {
+
+      // initialize all variables used in the program 
+      // isGameRunning is true if app is in the middle of a game
+      // userX are variables used to tract user points, wins, losses etc...
+      // crystalValues is an array containing crystal random numbers
+      var isGameRunning = true;
+      var userWins = 0;
+      var userLosses = 0;
+      var userTotals = 0;
+      var userRandom = 0;
+      var crystalValues = {};
+
+      // inital message to the user welcoming user to game
+      $("#userMessage").text("Welcome to Crystal collector game. Match random number by clicking on the crystals");
+
+      // make a call to reset all random crystal values and update the game interface
+      resetCrystalValues();
+      updateDisplayValues();
 
 
+      // resetCrystalValues() - function to reset the hidden crystal values  in the crystalValues array, as well as 
+      //          calculating the random number that the user needs to attempt to match
+      function resetCrystalValues() {
+        crystalValues[1] = Math.floor(Math.random() * 12 + 1);
+        crystalValues[2] = Math.floor(Math.random() * 12 + 1);
+        crystalValues[3] = Math.floor(Math.random() * 12 + 1);
+        crystalValues[4] = Math.floor(Math.random() * 12 + 1);
+        
+        userRandom = Math.floor(Math.random() * 102 + 19);
+      };
+
+      // restartGame() - function used to restart the Crystal Collector game by resetting/initializing game values. Function 
+      //          calles resetCrystalValues to reset  the random hidden crystal values as well as generating a new target
+      //          random number. Sets the isGameRunning game status to true and then messages the user that new game has started. 
+      function restartGame() {
+        resetCrystalValues();
+        userTotals = 0;
+        isGameRunning = true;
+        $("#userMessage").text("Best of luck...You'll definitely need it this time");
+      };
+
+      // wonGame() - function is called when the user has won the game. function messages the user that they won the game
+      //          , increments total user wins (userWins) variable, sets game status to false and update the game UI. 
+      function wonGame() {
+
+        $("#userMessage").text("Congrats you won the game!!");      
+        userWins++;
+        isGameRunning = false;
+        updateDisplayValues();
+      };
+
+      // lostGame() - function is called when the user has lost the game. function messages the user that they lost the game,
+      //          then increments total user losses (userLosses) variable, sets game status to false(isGameRunning), then updatess
+      //          the game UI. 
+      function lostGame() {
+        $("#userMessage").text("You really blew it this time....by LOSING the game!!");
+        userLosses++;
+        isGameRunning = false;
+        updateDisplayValues();
+      };
+
+      // 
+      // updateDisplayValues () - function is called to update the game UI. 
+      //         
+      function updateDisplayValues() {
+        $("#crystalTotals").text(userTotals);
+        $("#crystalLosses").text(userLosses);
+        $("#crystalWins").text(userWins);
+        $("#randomNumber").text(userRandom);
+      };
+
+      // getCrystalHandler(param event) - this is the main() funtion entry point into the game. This function 
+      //            is called on keyboard/mouse "click". The event param contains information on which of the cyrstal(s) 
+      //            was selected by the user. this function then adds the selected crystral value to the users total
+      //            and then determines if user total is less than or greater than the target (userRandom) number. If 
+      //            userTotal is less than the target the game continues, if userTotal is greater than the target then
+      //            userLost() is called, else userWon() is called.
+      function getCrystalHandler(event) {
+
+        // determine which crystal was clicked
+        crystalKey = $(this).attr("id")[3];
 
 
+        // if game state is set to NOT running (i.e. false), then restart game
+        // and update UI
+        if (isGameRunning === false){
+          restartGame();
+          updateDisplayValues();
+        }
+
+        // game is running, so update user total with selected crystal value
+        userTotals = userTotals + crystalValues[crystalKey];
+
+        // update UI wiht crystal total value
+        $("#crystalTotals").text(userTotals);
+
+        // if user total matches target user has won, so call wonGame() function
+        // if user total greater than target, user has lost so call lostGame() function
+        // else game continues so update UI values
+        if (userTotals === userRandom) {
+          wonGame();
+        }
+        else if (userTotals > userRandom) {
+          lostGame();
+        }
+        else {
+          updateDisplayValues();
+        };
+      };
 
 
+      // Assigns callback function to each of the 4 crystal selections
+      $(".button1").on("click", getCrystalHandler);
+      $(".button2").on("click", getCrystalHandler);
+      $(".button3").on("click", getCrystalHandler);
+      $(".button4").on("click", getCrystalHandler);
+    });
 
 
-$(document).ready(function () {
+  </script>
 
-// Your code here...
+</body>
 
-var operand1 = [];
-var operand2 = [];
-var operator;
-
-// // State one is expecting a number
-// //state 2 is exepecting an operator
-// //state 3 is another number
-// //state 4, if not an equal, do the calculation, store the result in operand1, go back to state 2
-// const OPERAND1 = 1;
-// const OPERATOR1 = 2;
-// const OPERAND2 = 3;
-// const OPERATOR2 = 4;
-// var result;
-// var state = 1;
-
-// function calculate() {
-//   var total;
-//   operand1 = operand1.join("");
-//   operand2 = operand2.join("");
-//   switch (operator) {
-//     case "+": {
-//       return (operand1 + operand2);
-//     }
-//     case "-": {
-//       return (operand1 - operand2);
-//     }
-//     case "*": {
-//       return (operand1 * operand2);
-//     }
-//     case "/": {
-//       return (operand1 / operand2);
-//     }
-//     case "^": {
-//       return (Math.pow(operand1, operand2));
-//     }
-//   }
-// };
-
-
-// $("#button-one").click(function () {
-
-//   if (state == OPERAND1) {
-//     operand1.push(1);
-//   }
-
-//   else if (state == OPPERAND2) {
-//     operand2.push(1);
-//   }
-// });
+</html>

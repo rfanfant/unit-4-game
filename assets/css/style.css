@@ -1,0 +1,82 @@
+body{
+    /* background-image:  url(   ../images/1-CrystalCollector.jpg); */
+    background-color: rgb(154, 154, 241);
+    background-repeat: no-repeat;
+    width: 100%;
+}
+
+.jumbotron {
+    background-color: transparent;
+}
+
+.row {
+
+    text-align: center;
+
+}
+
+.col{
+    text-align: center;
+}
+
+h3{
+    text-align: center;
+
+}
+
+h2{
+    text-align: center;
+
+}
+
+.col-lg-12{
+
+    width: 10%;
+    height: 10%;
+}
+.container{
+    text-align: center;
+}
+
+
+.button1{
+
+    background-image:  url("../images/btn1.jpg");
+    background-size:   contain;
+    width: 115px;
+    height: 115px;
+    border: none;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.button2{
+
+    background-image:  url("../images/btn2.jpg");
+    width: 115px;
+    height: 115px;
+    border: none;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+
+.button3{
+
+    background-image:  url("../images/btn3.jpg");
+    width: 115px;
+    height: 115px;
+    border: none;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.button4{
+
+    background-image:  url("../images/btn4.jpg");
+    width: 115px;
+    height: 115px;
+    border: none;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
